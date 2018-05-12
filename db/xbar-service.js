@@ -13,6 +13,13 @@ var XbarService = uvwlib.class({
     this.rootId = rootCntx.rootId();
     this.db = LocalDb.instance();
   },
+
+  login: function(uid, isLocal) {
+    return this.db.login(uid, isLocal ? this.rootId : null);
+  },
+  logout: function(isLocal) {
+    return this.db.logout(isLocal);
+  },
 });
 
 module.exports = XbarService;

@@ -2,15 +2,109 @@
 
 var path = require('path');
 var home = require('user-home');
+var shell = require('shelljs');
 var PouchDb = require('pouchdb');
 
 var uvwlib = require('uvwlib');
+var derefp = require('uvwlib/lib/utils/deref').p;
 var nodeUtils = require('uvwlib/node/utils');
-var specs = require('uvwlib/uvw/simple-specs');
 
-var simpleDispatch = require('xbarlib/lib/simple-dispatch');
+var simpleDispatch = require('uvwlib/xbar/simple-dispatch');
 
 var XbarDb = uvwlib.class({
+  init: function(opts) {
+    opts = opts || {};
+    this.homeDir = opts.homeDir ? path.resolve(opts.homeDir)
+      : path.resolve(home, '.uvworkspace');
+    shell.mkdir('-p', path.join(this.homeDir, 'db'));
+  },
+
+  homeDb: function() {
+    return this._homeDb || (this._homeDb = new PouchDb('xbars-home', {
+      prefix: path.join(this.homeDir, 'db') + '/'
+    }));
+  },
+
+  getLoginUser: function(rootId) {
+    return this.homeDb().get('_local/login')
+    .then(function(login) {
+      var r = rootId && login.roots && login.roots[rootId];
+      return (r || login).user || {};
+    })
+    .catch(function(err) {
+      return {};
+    });
+  },
+
+  login: function(uid, rootId) {
+    if (!uid || typeof uid !== 'string') return Promise.reject('invalid uid'); 
+
+    var db = this.homeDb();
+    return db.get('_local/login')
+    .then(function(login) {
+      var user;
+      if (rootId) {
+        user = derefp(['roots', rootId, 'user'], login);
+        if (!user) return Promise.reject('invalid login structure');
+        if (user.uid) {
+          if (userId !== uid) {
+            return Promise.reject('someone else already logged in');
+          } else {
+            return login.roots[rootId].user;
+          }
+        } else {
+          user.uid = uid;
+          user.rootId = rootId;
+          return db.put(login).then(function() { return user });
+        }
+      } else {
+        user = derefp(['user'], login);
+        if (user.uid) {
+          if (user.uid !== uid) {
+            return Promise.reject('someone else already logged in');
+          } else {
+            return login.user;
+          }
+        } else {
+          user.uid = uid;
+          return db.put(login).then(function() { return login.user; });
+        }
+      }
+    })
+    .catch(function(err) { //TODO: check not found error
+      var login = { _id: '_local/login' }, user;
+      if (rootId) {
+        user = derefp(['roots', rootId, 'user'], login);
+        user.rootId = rootId;
+      } else {
+        user = derefp(['user'], login);
+      }
+      if (!user) return Promise.reject('invalid login structure');
+      user.uid = uid; 
+      return db.put(login).then(function() { return user; });
+    });
+  },
+
+  logout: function(rootId) {
+    var db = this.homeDb();
+    return db.get('_local/login')
+    .then(function(login) {
+      var user;
+      if (rootId) {
+        user = derefp(['roots', rootId, 'user'], login);
+      } else {
+        user = derefp(['user'], login);
+      }
+      if (!user) return Promise.reject('invalid login structure');
+
+      delete user.uid;
+      return db.put(login).then(function() { return user; });
+    })
+    .catch(function(err) { //TODO: check not found error
+      return;
+    });
+  },
+
   info: function(rootId) {
     return uvwlib.assign({
       what: 'xbar-db',

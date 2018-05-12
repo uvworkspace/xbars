@@ -3,11 +3,11 @@
 var path = require('path');
 var home = require('user-home');
 
-var uvw = require('uvw-node');
+var uvwlib = require('uvwlib');
 var bsearch = require('uvwlib/lib/utils/bsearch');
-var JsonStore = require('uvw-node/db/file-json-store');
+//var JsonStore = require('uvwlib/db/file-json-store');
 
-var simpleDispatch = require('xbarlib/lib/simple-dispatch');
+var simpleDispatch = require('uvwlib/xbar/simple-dispatch');
 
 var XbarDb = uvw.class({
   init: function(opts) {
@@ -15,7 +15,7 @@ var XbarDb = uvw.class({
     var spec = uvw.findSpec(opts.cwd || process.cwd());
     this.homeDir = opts.homeDir ? path.resolve(opts.homeDir)
       : path.resolve(home, '.uvworkspace');
-    this.homeDb = JsonStore.instance(path.join(this.homeDir, 'xbar.json'));
+    //this.homeDb = JsonStore.instance(path.join(this.homeDir, 'xbar.json'));
   },
 
   info: function(hashId) {

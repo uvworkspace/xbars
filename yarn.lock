@@ -1471,8 +1471,8 @@ requires-port@~1.0.0:
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
 resolve@^1.1.6:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.6.0.tgz#0fbd21278b27b4004481c395349e7aba60a9ff5c"
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.7.1.tgz#aadd656374fd298aee895bc026b8297418677fd3"
   dependencies:
     path-parse "^1.0.5"
 
@@ -1493,8 +1493,8 @@ set-blocking@~2.0.0:
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
 
 shelljs@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.1.tgz#729e038c413a2254c4078b95ed46e0397154a9f1"
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.2.tgz#345b7df7763f4c2340d584abb532c5f752ca9e35"
   dependencies:
     glob "^7.0.0"
     interpret "^1.0.0"
@@ -1791,17 +1791,6 @@ uuid@3.2.1, uuid@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
-uvw-node@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/uvw-node/-/uvw-node-0.0.2.tgz#4626995691eaee4820075043236b669757776927"
-  dependencies:
-    shelljs "^0.8.1"
-    uvwlib "^0.0.4"
-
-uvwlib@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/uvwlib/-/uvwlib-0.0.2.tgz#bda90d090626dae1fada472aba1bb873da3ff564"
-
 uvwlib@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/uvwlib/-/uvwlib-0.0.4.tgz#ec3695ee9d7bf969c927ba460feb898169e7d928"
@@ -1848,12 +1837,6 @@ write-stream@~0.4.3:
   resolved "https://registry.yarnpkg.com/write-stream/-/write-stream-0.4.3.tgz#83cc8c0347d0af6057a93862b4e3ae01de5c81c1"
   dependencies:
     readable-stream "~0.0.2"
-
-xbarlib@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/xbarlib/-/xbarlib-0.0.1.tgz#859d9ab1e5496ab78ee28b74db6277f867be0fae"
-  dependencies:
-    uvwlib "^0.0.2"
 
 "xtend@>=4.0.0 <4.1.0-0", xtend@^4.0.0, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
